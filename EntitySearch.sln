@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntitySearch.Core", "EntitySearch.Core\EntitySearch.Core.csproj", "{6348F50F-941E-481B-B05F-77A3049E8D67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntitySearch.Tests", "EntitySearch.Tests\EntitySearch.Tests.csproj", "{FF42D883-C3F1-4BC3-BC9F-E8B7FE41EF68}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6348F50F-941E-481B-B05F-77A3049E8D67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6348F50F-941E-481B-B05F-77A3049E8D67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6348F50F-941E-481B-B05F-77A3049E8D67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6348F50F-941E-481B-B05F-77A3049E8D67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF42D883-C3F1-4BC3-BC9F-E8B7FE41EF68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF42D883-C3F1-4BC3-BC9F-E8B7FE41EF68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF42D883-C3F1-4BC3-BC9F-E8B7FE41EF68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF42D883-C3F1-4BC3-BC9F-E8B7FE41EF68}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
