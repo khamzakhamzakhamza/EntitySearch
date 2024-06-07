@@ -1,4 +1,6 @@
 using EntitySearch.Core;
+using EntitySearch.Example.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddEntitySearch();
+
+builder.Services.AddDbContextFactory<ExampleDbContext>(
+        options => options.UseInMemoryDatabase("Example"));
 
 var app = builder.Build();
 

@@ -5,6 +5,49 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Entity Search Example</h1>
+
+    <h3 class="heading">Create Todo</h3>
+    <form class="box" method="post">
+      <label class="form-field">WeekDay:</label><br>
+      <select required class="form-field" name="weekday" id="weekday">
+        <option value="0">Monday</option>
+        <option value="1">Tuesday</option>
+        <option value="2">Wednesday</option>
+      </select>
+      
+      <label class="form-field">Name:</label><br>
+      <input required class="form-field" type="text" name="name"><br>
+      
+      <label class="form-field">Done:</label><br>
+      <input class="form-field" type="checkbox" name="done"><br><br>
+      
+      <label class="form-field">SomeValue:</label><br>
+      <input required class="form-field" type="number" name="somevalue"><br><br>
+      
+      <input class="form-field" type="submit" value="Create Todo">
+    </form>
+
+    <h3 class="heading">Todos</h3>
+    <table class="box">
+      <tr>
+        <th>Id</th>
+        <th>WeekDay</th>
+        <th>Name</th>
+        <th>Done</th>
+        <th>SomeValue</th>
+      </tr>
+      @for (var i = 0; i < Model.Todos.Length; i++)
+      {
+          var todo = Model.Todos[i];
+          <tr>
+            <td>@todo.Id</td>
+            <td>@todo.WeekDay</td>
+            <td>@todo.Name</td>
+            <td>@todo.Done</td>
+            <td>@todo.SomeValue</td>
+          </tr>
+      }
+    </table>
+    
 </div>

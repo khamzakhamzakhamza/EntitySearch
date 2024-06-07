@@ -1,6 +1,5 @@
 using EntitySearch.Core;
 using EntitySearch.Core.Attributes;
-using EntitySearch.Example.Entities;
 using EntitySearch.Example.Enums;
 
 namespace EntitySearch.Example.FilteringSpecs;
