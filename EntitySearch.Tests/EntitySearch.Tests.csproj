@@ -20,4 +20,9 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\entitysearch.core\EntitySearch.Core.csproj" />
+    <ProjectReference Include="..\entitysearch.example\EntitySearch.Example.csproj" />
+  </ItemGroup>
+
 </Project>
