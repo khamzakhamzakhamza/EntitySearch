@@ -78,4 +78,52 @@ public class AttributeQueryBuilderTests
         Assert.Equal("Should Be Equal Expression", resultQuery.Name);
         Assert.Equal("(Param_0.SomeValue == 1)", resultQuery.Body.ToString());
     }
+
+    [Fact]
+    public void BuildQuery_ShouldBeGreaterAttributeWithIntValue_ReturnsGreaterValueQuery()
+    {
+        // Assert
+        var attribute = new ShouldBeGreaterAttribute("SomeValue", typeof(int));
+        var param = Expression.Parameter(typeof(Todo));
+        var value = 1;
+
+        // Act
+        var resultQuery = _attributeQueryBuilder.BuildQuery<Todo>(attribute, param, value);
+
+        // Assert
+        Assert.Equal("Should Be Greater Expression", resultQuery.Name);
+        Assert.Equal("(Param_0.SomeValue > 1)", resultQuery.Body.ToString());
+    }
+
+    [Fact]
+    public void BuildQuery_ShouldBeLessAttributeWithIntValue_ReturnsLessValueQuery()
+    {
+        // Assert
+        var attribute = new ShouldBeLessAttribute("SomeValue", typeof(int));
+        var param = Expression.Parameter(typeof(Todo));
+        var value = 1;
+
+        // Act
+        var resultQuery = _attributeQueryBuilder.BuildQuery<Todo>(attribute, param, value);
+
+        // Assert
+        Assert.Equal("Should Be Less Expression", resultQuery.Name);
+        Assert.Equal("(Param_0.SomeValue < 1)", resultQuery.Body.ToString());
+    }
+
+    [Fact]
+    public void BuildQuery_ShouldContainStrAttribute_ReturnsContainStrQuery()
+    {
+        // Assert
+        var attribute = new ShouldContainStrAttribute("Name", typeof(string));
+        var param = Expression.Parameter(typeof(Todo));
+        var value = "name";
+
+        // Act
+        var resultQuery = _attributeQueryBuilder.BuildQuery<Todo>(attribute, param, value);
+
+        // Assert
+        Assert.Equal("Contains Str Expression", resultQuery.Name);
+        Assert.Equal("Param_0.Name.Contains(\"name\")", resultQuery.Body.ToString());
+    }
 }

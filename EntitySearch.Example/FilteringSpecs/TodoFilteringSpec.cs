@@ -9,6 +9,10 @@ public class TodoFilteringSpec: IFilteringSpec
 {
     [ShouldEqual("WeekDay", typeof(WeekDays))]
     public WeekDays? WeekDay { get; set; }
-    [ShouldEqual("Name", typeof(string))]
-    public WeekDays? OrderStatus { get; set; }
+
+    [ShouldContainStr("Name", typeof(string))]
+    public string? Name { get; set; }
+
+    [ShouldBeLess("SomeValue", typeof(int))]
+    public string? SomeValue { get; set; }
 }
