@@ -5,7 +5,8 @@ namespace EntitySearch.Core {
     public static class AspDiExtensions
     {
         public static IServiceCollection AddEntitySearch(this IServiceCollection services) {
-            services.AddSingleton<IAttributeQueryBuilder, AttributeQueryBuilder>();
+            services.AddScoped<IAttributeQueryBuilder, AttributeQueryBuilder>();
+            services.AddScoped<IFilteringQueryBuilder, FilteringQueryBuilder>();
 
             return services;
         }
