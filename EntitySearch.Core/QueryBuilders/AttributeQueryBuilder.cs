@@ -8,7 +8,8 @@ namespace EntitySearch.Core.QueryBuilders {
         public Expression<Func<Entity, bool>> BuildQuery<Entity>(Type attributeType,
                                                                  string propName,
                                                                  ParameterExpression param,
-                                                                 object filteringValue) where Entity : class, new()
+                                                                 object filteringValue)
+            where Entity : class, new()
         {
             if (attributeType == typeof(ShouldContainStrAttribute))
                 return BuildShouldContainStrAttributeQuery<Entity>(propName, param, filteringValue);
@@ -24,7 +25,8 @@ namespace EntitySearch.Core.QueryBuilders {
 
         private Expression<Func<Entity, bool>> BuildShouldContainStrAttributeQuery<Entity>(string propName,
                                                                                            ParameterExpression param,
-                                                                                           object filteringValue) where Entity : class, new()
+                                                                                           object filteringValue)
+            where Entity : class, new()
         {
             var containsStrExpression = Expression.Call(Expression.Property(param, typeof(Entity), propName),
                                                         typeof(string).GetMethod(nameof(string.Contains), new Type[] { typeof(string) })!,
@@ -38,7 +40,8 @@ namespace EntitySearch.Core.QueryBuilders {
 
         private Expression<Func<Entity, bool>> BuildShouldBeLessAttributeQuery<Entity>(string propName,
                                                                                        ParameterExpression param,
-                                                                                       object filteringValue) where Entity : class, new()
+                                                                                       object filteringValue)
+            where Entity : class, new()
         {
             var lessExpression = Expression.MakeBinary(ExpressionType.LessThan,
                                                        Expression.Property(param, typeof(Entity), propName),
@@ -52,7 +55,8 @@ namespace EntitySearch.Core.QueryBuilders {
 
         private Expression<Func<Entity, bool>> BuildShouldBeGreaterAttributeQuery<Entity>(string propName,
                                                                                           ParameterExpression param,
-                                                                                          object filteringValue) where Entity : class, new()
+                                                                                          object filteringValue)
+            where Entity : class, new()
         {
             var moreExpression = Expression.MakeBinary(ExpressionType.GreaterThan,
                                                        Expression.Property(param, typeof(Entity), propName),
@@ -66,7 +70,8 @@ namespace EntitySearch.Core.QueryBuilders {
 
         private Expression<Func<Entity, bool>> BuildShouldEqualAttributeQuery<Entity>(string propName,
                                                                                       ParameterExpression param,
-                                                                                      object filteringValue) where Entity : class, new()
+                                                                                      object filteringValue)
+            where Entity : class, new()
         {
             var equalExpression = Expression.MakeBinary(ExpressionType.Equal,
                                                         Expression.Property(param, typeof(Entity), propName),
