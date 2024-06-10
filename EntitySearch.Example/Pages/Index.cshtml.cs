@@ -1,6 +1,10 @@
+using EntitySearch.Core;
+using EntitySearch.Core.QueryBuilders;
+using EntitySearch.Core.Specs;
 using EntitySearch.Example.Data;
 using EntitySearch.Example.Entities;
 using EntitySearch.Example.Enums;
+using EntitySearch.Example.FilteringSpecs;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EntitySearch.Example.Pages;
@@ -8,17 +12,46 @@ namespace EntitySearch.Example.Pages;
 public class IndexModel : PageModel
 {
     public Todo[] Todos {get; set;} = {};
-    private readonly ExampleDbContext _context;
 
-    public IndexModel(ExampleDbContext context)
+    private readonly ExampleDbContext _context;
+    private readonly Search _search;
+
+    public IndexModel(ExampleDbContext context, Search search)
     {
         _context = context;
+        _search = search;
+        
         RefreshTodos();
     }
 
-    public void OnGet()
+    public async Task OnPostFilterAsync()
     {
-        
+        var weekDayEquals = (WeekDays)int.Parse(Request.Form["weekdayequals"].First() ?? "0");
+        var nameContains = Request.Form["namecontains"];
+        var doneEqual = Request.Form["doneequals"].FirstOrDefault() == "on" ? true : false;
+        int.TryParse(Request.Form["somevaluelessthan"].FirstOrDefault(), out var someValueLessThan);
+        int.TryParse(Request.Form["somevaluegreaterthan"].FirstOrDefault(), out var someValueGreaterThan);
+
+        var filteringSpec = new TodoFilteringSpec {
+            WeekDayEqual = weekDayEquals,
+            NameContains  = nameContains,
+            DoneEqual = doneEqual,
+            LessThanSomeValue = someValueLessThan,
+            GreaterThanSomeValue = someValueGreaterThan,
+        };
+
+        var sortitngSpec = new SortingSpec {
+            SortField = "Name"
+        };
+
+        var paginatingSpec = new PaginatingSpec {
+            Page = 0,
+            PageSize = 10
+        };
+
+        var entities = await _search.SearchAsync<TodoFilteringSpec, Todo>(filteringSpec, sortitngSpec, paginatingSpec);
+
+        Todos = entities.Data.ToArray();
     }
 
     public void OnPost()
@@ -36,5 +69,6 @@ public class IndexModel : PageModel
 
         RefreshTodos();
     }
+
     private void RefreshTodos() => Todos = _context.Todos.ToArray();
 }

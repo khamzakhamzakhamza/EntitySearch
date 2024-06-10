@@ -10,7 +10,7 @@
     <h3 class="heading">Create Todo</h3>
     <form class="box" method="post">
       <label class="form-field">WeekDay:</label><br>
-      <select required class="form-field" name="weekday" id="weekday">
+      <select required class="form-field" name="weekday">
         <option value="0">Monday</option>
         <option value="1">Tuesday</option>
         <option value="2">Wednesday</option>
@@ -26,6 +26,30 @@
       <input required class="form-field" type="number" name="somevalue"><br><br>
       
       <input class="form-field" type="submit" value="Create Todo">
+    </form>
+
+    <h3 class="heading">Filter Todos</h3>
+    <form class="box" asp-page-handler="filter" method="post">
+      <label class="form-field">WeekDay equals:</label><br>
+      <select class="form-field" name="weekdayequals">
+        <option value="0">Monday</option>
+        <option value="1">Tuesday</option>
+        <option value="2">Wednesday</option>
+      </select>
+      
+      <label class="form-field">Name contains:</label><br>
+      <input class="form-field" type="text" name="namecontains"><br>
+      
+      <label class="form-field">Done equals:</label><br>
+      <input class="form-field" type="checkbox" name="doneequals"><br><br>
+
+      <label class="form-field">SomeValue less than:</label><br>
+      <input class="form-field" type="number" name="somevaluelessthan"><br><br>
+      
+      <label class="form-field">SomeValue greater than:</label><br>
+      <input class="form-field" type="number" name="somevaluegreaterthan"><br><br>
+      
+      <input class="form-field" type="submit" value="Filter">
     </form>
 
     <h3 class="heading">Todos</h3>
