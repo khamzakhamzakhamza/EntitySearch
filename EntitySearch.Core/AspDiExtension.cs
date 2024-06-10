@@ -8,6 +8,7 @@ namespace EntitySearch.Core {
         {
             services.AddScoped<IAttributeQueryBuilder, AttributeQueryBuilder>();
             services.AddScoped<IFilteringQueryBuilder, FilteringQueryBuilder>();
+            services.AddScoped<ISortingQueryBuilder, SortingQueryBuilder>();
             services.AddScoped<Search>();
 
             return services;
