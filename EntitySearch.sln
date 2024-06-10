@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntitySearch.Tests", "Entit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntitySearch.Example", "EntitySearch.Example\EntitySearch.Example.csproj", "{BEB1AEA0-D2C7-46DD-A432-1C5D7337A27E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntitySearch.EfCore", "EntitySearch.EfCore\EntitySearch.EfCore.csproj", "{16B8F680-3A90-4E25-9E86-19B8881B91FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{BEB1AEA0-D2C7-46DD-A432-1C5D7337A27E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEB1AEA0-D2C7-46DD-A432-1C5D7337A27E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEB1AEA0-D2C7-46DD-A432-1C5D7337A27E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16B8F680-3A90-4E25-9E86-19B8881B91FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16B8F680-3A90-4E25-9E86-19B8881B91FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16B8F680-3A90-4E25-9E86-19B8881B91FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16B8F680-3A90-4E25-9E86-19B8881B91FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

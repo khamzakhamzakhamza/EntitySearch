@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\entitysearch.core\EntitySearch.Core.csproj" />
+    <ProjectReference Include="..\entitysearch.efcore\EntitySearch.EfCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

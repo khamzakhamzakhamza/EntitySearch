@@ -1,4 +1,5 @@
 using EntitySearch.Core;
+using EntitySearch.EfCore;
 using EntitySearch.Example.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,10 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-builder.Services.AddEntitySearch();
 
 builder.Services.AddDbContextFactory<ExampleDbContext>(
         options => options.UseInMemoryDatabase("Example"));
+
+builder.Services.AddEntitySearch().WithEfCore<ExampleDbContext>();
 
 var app = builder.Build();
 
