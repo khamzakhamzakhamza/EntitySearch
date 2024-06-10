@@ -7,6 +7,7 @@ namespace EntitySearch.Core.QueryBuilders {
         Expression<Func<Entity, bool>> BuildQuery<Entity>(Type attributeType,
                                                           string propName,
                                                           ParameterExpression param,
-                                                          object filteringValue) where Entity : class, new();
+                                                          object filteringValue) 
+            where Entity : class, new();
     }
 }
