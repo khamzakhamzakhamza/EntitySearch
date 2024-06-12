@@ -40,14 +40,9 @@ public class IndexModel : PageModel
             GreaterThanSomeValue = someValueGreaterThan,
         };
 
-        var sortitngSpec = new SortingSpec {
-            SortField = "Name"
-        };
+        var sortitngSpec = new SortingSpec("Name");
 
-        var paginatingSpec = new PaginatingSpec {
-            Page = 0,
-            PageSize = 10
-        };
+        var paginatingSpec = new PaginatingSpec(0, 10);
 
         var entities = await _search.SearchAsync<TodoFilteringSpec, Todo>(filteringSpec, sortitngSpec, paginatingSpec);
 

@@ -40,12 +40,12 @@ namespace EntitySearch.Core {
 
             // apply pagination
             query = query
-                .Skip((int)(paginatingSpec.Page * paginatingSpec.PageSize))
+                .Skip((int)(paginatingSpec.PageNumber * paginatingSpec.PageSize))
                 .Take((int)paginatingSpec.PageSize);
             
             var entities = await _dataAdapter.ExecuteQuery(CustomizeQuery(query));
 
-            return new PaginatedData<Entity>(paginatingSpec.Page, pageCount, entities);
+            return new PaginatedData<Entity>(paginatingSpec.PageNumber, pageCount, entities);
         }
 
         public virtual IQueryable<Entity> CustomizeQuery<Entity>(IQueryable<Entity> query) 
