@@ -23,7 +23,7 @@ public class EfCoreDataAdapter<AppContext>: IDataAdapter
 
     public IQueryable<Entity> GetBaseQuery<Entity>()
         where Entity: class, new() => 
-        _context.Set<Entity>().AsNoTracking();
+        _context.Set<Entity>();
 
     public async Task<ICollection<Entity>> ExecuteQuery<Entity>(IQueryable<Entity> query)
         where Entity: class, new()

@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EntitySearch.Core.Adapters;
 using EntitySearch.Core.DataTransfer;
+using EntitySearch.Core.Exceptions;
 using EntitySearch.Core.QueryBuilders;
 using EntitySearch.Core.Specs;
 
@@ -16,27 +17,28 @@ namespace EntitySearch.Core {
                       IFilteringQueryBuilder filteringQueryBuilder,
                       ISortingQueryBuilder sortingQueryBuilder)
         {
-            _dataAdapter = dataAdapter;
             _filteringQueryBuilder = filteringQueryBuilder;
             _sortingQueryBuilder = sortingQueryBuilder;
+            _dataAdapter = dataAdapter 
+                ?? throw new DataAdapterMissingException(ExceptionMessages.DataAdapterMissing());
         }
 
-        public async Task<PaginatedData<Entity>> SearchAsync<FilteringSpec, Entity>(FilteringSpec filteringSpec,
-                                                                                    SortingSpec sortingSpec,
-                                                                                    PaginatingSpec paginatingSpec)
-            where FilteringSpec: IFilteringSpec, new()
-            where Entity: class, new()
+        public async Task<PaginatedData<TEntity>> SearchAsync<TFilteringSpec, TEntity>(TFilteringSpec filteringSpec,
+                                                                                       SortingSpec sortingSpec,
+                                                                                       PaginatingSpec paginatingSpec)
+            where TFilteringSpec: IFilteringSpec, new()
+            where TEntity: class, new()
         {
-            var pageCount = await _dataAdapter.GetCountAsync<Entity>() / paginatingSpec.PageSize;
+            var pageCount = await _dataAdapter.GetCountAsync<TEntity>() / paginatingSpec.PageSize;
 
             // apply filtering
             var query = _filteringQueryBuilder
-                .BuildQuery(filteringSpec, _dataAdapter.GetBaseQuery<Entity>());
+                .BuildQuery(filteringSpec, _dataAdapter.GetBaseQuery<TEntity>());
 
             // apply sorting
             query = sortingSpec.SortDescending
-                ? query.OrderByDescending(_sortingQueryBuilder.BuildQuery<Entity>(sortingSpec.SortProperty))
-                : query.OrderBy(_sortingQueryBuilder.BuildQuery<Entity>(sortingSpec.SortProperty));
+                ? query.OrderByDescending(_sortingQueryBuilder.BuildQuery<TEntity>(sortingSpec.SortProperty))
+                : query.OrderBy(_sortingQueryBuilder.BuildQuery<TEntity>(sortingSpec.SortProperty));
 
             // apply pagination
             query = query
@@ -45,10 +47,10 @@ namespace EntitySearch.Core {
             
             var entities = await _dataAdapter.ExecuteQuery(CustomizeQuery(query));
 
-            return new PaginatedData<Entity>(paginatingSpec.PageNumber, pageCount, entities);
+            return new PaginatedData<TEntity>(paginatingSpec.PageNumber, pageCount, entities);
         }
 
-        public virtual IQueryable<Entity> CustomizeQuery<Entity>(IQueryable<Entity> query) 
-            where Entity: class, new() => query;
+        public virtual IQueryable<TEntity> CustomizeQuery<TEntity>(IQueryable<TEntity> query) 
+            where TEntity: class, new() => query;
     }
 }

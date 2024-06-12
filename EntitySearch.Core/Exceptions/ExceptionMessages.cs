@@ -6,5 +6,8 @@ namespace EntitySearch.Core.Exceptions {
 
         public static string PropertyNameInvalid(string propName, string entityType) =>
             $"Property name {propName} could not be found on the entity {entityType}";
+
+        public static string DataAdapterMissing() =>
+            $"EntitySearch requires data adapter to retrive data. Example: \"Services.AddEntitySearch().WithEfCore<ExampleDbContext>()\"";
     }
 }
