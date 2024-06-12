@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using EntitySearch.Core.Adapters;
@@ -29,23 +30,24 @@ namespace EntitySearch.Core {
             where TFilteringSpec: IFilteringSpec, new()
             where TEntity: class, new()
         {
-            var pageCount = await _dataAdapter.GetCountAsync<TEntity>() / paginatingSpec.PageSize;
+            var entitiesCount = await _dataAdapter.GetCountAsync<TEntity>();
+            var totalPages = (double)entitiesCount / paginatingSpec.PageSize;
+            var pageCount = (uint)Math.Ceiling(totalPages);
 
-            // apply filtering
             var query = _filteringQueryBuilder
                 .BuildQuery(filteringSpec, _dataAdapter.GetBaseQuery<TEntity>());
 
-            // apply sorting
             query = sortingSpec.SortDescending
                 ? query.OrderByDescending(_sortingQueryBuilder.BuildQuery<TEntity>(sortingSpec.SortProperty))
                 : query.OrderBy(_sortingQueryBuilder.BuildQuery<TEntity>(sortingSpec.SortProperty));
 
-            // apply pagination
             query = query
                 .Skip((int)(paginatingSpec.PageNumber * paginatingSpec.PageSize))
                 .Take((int)paginatingSpec.PageSize);
             
-            var entities = await _dataAdapter.ExecuteQuery(CustomizeQuery(query));
+            query = CustomizeQuery(query);
+
+            var entities = await _dataAdapter.ExecuteQuery(query);
 
             return new PaginatedData<TEntity>(paginatingSpec.PageNumber, pageCount, entities);
         }
