@@ -6,18 +6,18 @@ namespace EntitySearch.Example.FilteringSpecs;
 
 public class TodoFilteringSpec: IFilteringSpec 
 {
-    [ShouldEqual("WeekDay", typeof(WeekDays))]
+    [ShouldEqual("WeekDay")]
     public WeekDays? WeekDayEqual { get; set; }
 
-    [ShouldContainStr("Name", typeof(string))]
+    [ShouldContainStr("Name")]
     public string? NameContains { get; set; }
 
-    [ShouldEqual("Done", typeof(bool))]
+    [ShouldEqual("Done")]
     public bool? DoneEqual { get; set; }
 
-    [ShouldBeLess("SomeValue", typeof(int))]
+    [ShouldBeLess("SomeValue")]
     public int? LessThanSomeValue { get; set; }
 
-    [ShouldBeGreater("SomeValue", typeof(int))]
+    [ShouldBeGreater("SomeValue")]
     public int? GreaterThanSomeValue { get; set; }
 }
