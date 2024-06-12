@@ -1,22 +1,28 @@
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
+using EntitySearch.Core.Exceptions;
 
 namespace EntitySearch.Core.QueryBuilders {
-    public class SortingQueryBuilder: ISortingQueryBuilder
+    internal class SortingQueryBuilder: ISortingQueryBuilder
     {
-        public Expression<Func<Entity, object>> BuildQuery<Entity>(string sortField)
-            where Entity : class, new()
+        public Expression<Func<TEntity, object>> BuildQuery<TEntity>(string sortProp)
+            where TEntity : class, new()
         {
-            var property = typeof(Entity).GetProperty(sortField,
-                                                      BindingFlags.IgnoreCase
-                                                      | BindingFlags.Public
-                                                      | BindingFlags.Instance);
+            var property = typeof(TEntity).GetProperty(sortProp, 
+                                                       BindingFlags.Public
+                                                       | BindingFlags.Instance);
 
-            var param = Expression.Parameter(typeof(Entity), "c");
-            var propertyAccess = Expression.MakeMemberAccess(param, property);
+            if (property is null) {
+                var msg = ExceptionMessages.PropertyNameInvalid(sortProp,
+                                                                typeof(TEntity).Name);
+                throw new PropertyNameInvalidException(msg);
+            }
 
-            return Expression.Lambda<Func<Entity, object>>(propertyAccess, param);
+            var parameterExpression = Expression.Parameter(typeof(TEntity));
+            var propertyAccessExpression = Expression.MakeMemberAccess(parameterExpression, property);
+
+            return Expression.Lambda<Func<TEntity, object>>(propertyAccessExpression, parameterExpression);
         }
     }
 }
