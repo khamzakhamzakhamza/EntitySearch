@@ -9,7 +9,7 @@ using EntitySearch.Example.FilteringSpecs;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Moq;
 
-namespace EntitySearch.Tests;
+namespace EntitySearch.Tests.QueryBuilders;
 
 public class FilteringQueryBuilderTests
 {

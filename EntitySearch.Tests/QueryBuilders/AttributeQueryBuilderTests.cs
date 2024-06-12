@@ -5,7 +5,7 @@ using EntitySearch.Core.QueryBuilders;
 using EntitySearch.Example.Entities;
 using EntitySearch.Example.Enums;
 
-namespace EntitySearch.Tests;
+namespace EntitySearch.Tests.QueryBuilders;
 
 public class AttributeQueryBuilderTests
 {

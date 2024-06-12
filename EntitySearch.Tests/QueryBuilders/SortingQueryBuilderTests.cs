@@ -2,7 +2,7 @@ using EntitySearch.Core.Exceptions;
 using EntitySearch.Core.QueryBuilders;
 using EntitySearch.Example.Entities;
 
-namespace EntitySearch.Tests;
+namespace EntitySearch.Tests.QueryBuilders;
 
 public class SortingQueryBuilderTests
 {
