@@ -35,8 +35,8 @@ namespace EntitySearch.Core {
 
             // apply sorting
             query = sortingSpec.SortDescending
-                ? query.OrderByDescending(_sortingQueryBuilder.BuildQuery<Entity>(sortingSpec.SortField))
-                : query.OrderBy(_sortingQueryBuilder.BuildQuery<Entity>(sortingSpec.SortField));
+                ? query.OrderByDescending(_sortingQueryBuilder.BuildQuery<Entity>(sortingSpec.SortProperty))
+                : query.OrderBy(_sortingQueryBuilder.BuildQuery<Entity>(sortingSpec.SortProperty));
 
             // apply pagination
             query = query
