@@ -5,82 +5,60 @@ using EntitySearch.Core.Attributes;
 namespace EntitySearch.Core.QueryBuilders {
     public class AttributeQueryBuilder: IAttributeQueryBuilder
     {
-        public Expression<Func<Entity, bool>> BuildQuery<Entity>(Type attributeType,
+        public Expression<Func<TEntity, bool>> BuildQuery<TEntity>(Type attributeType,
                                                                  string propName,
                                                                  ParameterExpression param,
                                                                  object filteringValue)
-            where Entity : class, new()
+            where TEntity : class, new()
         {
-            if (attributeType == typeof(ShouldContainStrAttribute))
-                return BuildShouldContainStrAttributeQuery<Entity>(propName, param, filteringValue);
-            else if (attributeType == typeof(ShouldBeLessAttribute))
-                return BuildShouldBeLessAttributeQuery<Entity>(propName, param, filteringValue);
-            else if (attributeType == typeof(ShouldBeGreaterAttribute))
-                return BuildShouldBeGreaterAttributeQuery<Entity>(propName, param, filteringValue);
-            else if (attributeType == typeof(ShouldEqualAttribute))
-                return BuildShouldEqualAttributeQuery<Entity>(propName, param, filteringValue);
-
-            throw new ArgumentException("Unsoported attribute type");
+            return attributeType switch
+            {
+                Type t when t == typeof(ShouldContainStrAttribute) =>
+                    BuildContainsStrQuery<TEntity>(propName, param, filteringValue),
+                Type t when t == typeof(ShouldBeLessAttribute) =>
+                    BuildBinaryExpressionQuery<TEntity>(ExpressionType.LessThan,
+                                                        propName,
+                                                        param,
+                                                        filteringValue),
+                Type t when t == typeof(ShouldBeGreaterAttribute) =>
+                    BuildBinaryExpressionQuery<TEntity>(ExpressionType.GreaterThan,
+                                                        propName,
+                                                        param,
+                                                        filteringValue),
+                Type t when t == typeof(ShouldEqualAttribute) =>
+                    BuildBinaryExpressionQuery<TEntity>(ExpressionType.Equal,
+                                                        propName,
+                                                        param,
+                                                        filteringValue),
+                _ => throw new ArgumentException("Unsupported attribute type")
+            };
         }
 
-        private Expression<Func<Entity, bool>> BuildShouldContainStrAttributeQuery<Entity>(string propName,
-                                                                                           ParameterExpression param,
-                                                                                           object filteringValue)
-            where Entity : class, new()
+        private Expression<Func<TEntity, bool>> BuildContainsStrQuery<TEntity>(string propName,
+                                                                               ParameterExpression param,
+                                                                               object filteringValue)
+            where TEntity : class, new()
         {
-            var containsStrExpression = Expression.Call(Expression.Property(param, typeof(Entity), propName),
-                                                        typeof(string).GetMethod(nameof(string.Contains), new Type[] { typeof(string) })!,
-                                                        Expression.Constant(filteringValue));
+            var containsMethod = typeof(string).GetMethod(nameof(string.Contains), new Type[] { typeof(string) })!;
+    
+            var constantExpression = Expression.Constant(filteringValue);
+            var propertyExpression = Expression.Property(param, typeof(TEntity), propName);
+            var containsExpression = Expression.Call(propertyExpression, containsMethod, constantExpression);
 
-            return Expression.Lambda<Func<Entity, bool>>(containsStrExpression,
-                                                         "Contains Str Expression",
-                                                         true,
-                                                         new ParameterExpression[] { param });
+            return Expression.Lambda<Func<TEntity, bool>>(containsExpression, param);
         }
 
-        private Expression<Func<Entity, bool>> BuildShouldBeLessAttributeQuery<Entity>(string propName,
-                                                                                       ParameterExpression param,
-                                                                                       object filteringValue)
-            where Entity : class, new()
+        private Expression<Func<TEntity, bool>> BuildBinaryExpressionQuery<TEntity>(ExpressionType expressionType,
+                                                                                    string propName,
+                                                                                    ParameterExpression param,
+                                                                                    object filteringValue)
+            where TEntity : class, new()
         {
-            var lessExpression = Expression.MakeBinary(ExpressionType.LessThan,
-                                                       Expression.Property(param, typeof(Entity), propName),
-                                                       Expression.Constant(filteringValue));
+            var propertyExpression = Expression.Property(param, typeof(TEntity), propName);
+            var constantExpression = Expression.Constant(filteringValue);
+            var binaryExpression = Expression.MakeBinary(expressionType, propertyExpression, constantExpression);
 
-            return Expression.Lambda<Func<Entity, bool>>(lessExpression,
-                                                         "Should Be Less Expression",
-                                                         true,
-                                                         new ParameterExpression[] { param });
-        }
-
-        private Expression<Func<Entity, bool>> BuildShouldBeGreaterAttributeQuery<Entity>(string propName,
-                                                                                          ParameterExpression param,
-                                                                                          object filteringValue)
-            where Entity : class, new()
-        {
-            var moreExpression = Expression.MakeBinary(ExpressionType.GreaterThan,
-                                                       Expression.Property(param, typeof(Entity), propName),
-                                                       Expression.Constant(filteringValue));
-
-            return Expression.Lambda<Func<Entity, bool>>(moreExpression,
-                                                         "Should Be Greater Expression",
-                                                         true,
-                                                         new ParameterExpression[] { param });
-        }
-
-        private Expression<Func<Entity, bool>> BuildShouldEqualAttributeQuery<Entity>(string propName,
-                                                                                      ParameterExpression param,
-                                                                                      object filteringValue)
-            where Entity : class, new()
-        {
-            var equalExpression = Expression.MakeBinary(ExpressionType.Equal,
-                                                        Expression.Property(param, typeof(Entity), propName),
-                                                        Expression.Constant(filteringValue));
-
-            return Expression.Lambda<Func<Entity, bool>>(equalExpression,
-                                                         "Should Be Equal Expression",
-                                                         true,
-                                                         new ParameterExpression[] { param });
+            return Expression.Lambda<Func<TEntity, bool>>(binaryExpression, param);
         }
     }
 }

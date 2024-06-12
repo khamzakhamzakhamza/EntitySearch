@@ -4,10 +4,11 @@ using System.Linq.Expressions;
 namespace EntitySearch.Core.QueryBuilders {
     public interface IAttributeQueryBuilder
     {
-        Expression<Func<Entity, bool>> BuildQuery<Entity>(Type attributeType,
+        /// <exception cref="ArgumentException">Thrown when the attribute type is unsupported.</exception>
+        Expression<Func<TEntity, bool>> BuildQuery<TEntity>(Type attributeType,
                                                           string propName,
                                                           ParameterExpression param,
                                                           object filteringValue) 
-            where Entity : class, new();
+            where TEntity : class, new();
     }
 }

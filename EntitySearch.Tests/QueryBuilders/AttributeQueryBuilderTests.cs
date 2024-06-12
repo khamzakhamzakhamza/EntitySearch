@@ -15,83 +15,43 @@ public class AttributeQueryBuilderTests
         _attributeQueryBuilder = new AttributeQueryBuilder();
     }
 
-    [Fact]
-    public void BuildQuery_ShouldEqualAttributeWithEnumValue_ReturnsEqualValueQuery()
+    [Theory]
+    [InlineData("WeekDay", WeekDays.Monday, "(Param_0.WeekDay == Monday)")]
+    [InlineData("Name", "hello", "(Param_0.Name == \"hello\")")]
+    [InlineData("Done", true, "(Param_0.Done == True)")]
+    [InlineData("SomeValue", 1, "(Param_0.SomeValue == 1)")]
+    public void BuildQuery_ShouldEqualAttribute_ReturnsEqualValueQuery(string propName,
+                                                                       object value,
+                                                                       string expected)
     {
-        // Assert
-        var attribute = new ShouldEqualAttribute("WeekDay", typeof(WeekDays));
+        // Arrange
         var param = Expression.Parameter(typeof(Todo));
-        var value = WeekDays.Monday;
 
         // Act
-        var resultQuery = _attributeQueryBuilder.BuildQuery<Todo>(attribute, param, value);
+        var resultQuery = _attributeQueryBuilder.BuildQuery<Todo>(typeof(ShouldEqualAttribute),
+                                                                  propName,
+                                                                  param,
+                                                                  value);
 
         // Assert
-        Assert.Equal("Should Be Equal Expression", resultQuery.Name);
-        Assert.Equal("(Param_0.WeekDay == Monday)", resultQuery.Body.ToString());
-    }
-
-    [Fact]
-    public void BuildQuery_ShouldEqualAttributeWithStringValue_ReturnsEqualValueQuery()
-    {
-        // Assert
-        var attribute = new ShouldEqualAttribute("Name", typeof(string));
-        var param = Expression.Parameter(typeof(Todo));
-        var value = "hello";
-
-        // Act
-        var resultQuery = _attributeQueryBuilder.BuildQuery<Todo>(attribute, param, value);
-
-        // Assert
-        Assert.Equal("Should Be Equal Expression", resultQuery.Name);
-        Assert.Equal("(Param_0.Name == \"hello\")", resultQuery.Body.ToString());
-    }
-
-    [Fact]
-    public void BuildQuery_ShouldEqualAttributeWithBoolValue_ReturnsEqualValueQuery()
-    {
-        // Assert
-        var attribute = new ShouldEqualAttribute("Done", typeof(bool));
-        var param = Expression.Parameter(typeof(Todo));
-        var value = true;
-
-        // Act
-        var resultQuery = _attributeQueryBuilder.BuildQuery<Todo>(attribute, param, value);
-
-        // Assert
-        Assert.Equal("Should Be Equal Expression", resultQuery.Name);
-        Assert.Equal("(Param_0.Done == True)", resultQuery.Body.ToString());
-    }
-
-    [Fact]
-    public void BuildQuery_ShouldEqualAttributeWithIntValue_ReturnsEqualValueQuery()
-    {
-        // Assert
-        var attribute = new ShouldEqualAttribute("SomeValue", typeof(int));
-        var param = Expression.Parameter(typeof(Todo));
-        var value = 1;
-
-        // Act
-        var resultQuery = _attributeQueryBuilder.BuildQuery<Todo>(attribute, param, value);
-
-        // Assert
-        Assert.Equal("Should Be Equal Expression", resultQuery.Name);
-        Assert.Equal("(Param_0.SomeValue == 1)", resultQuery.Body.ToString());
+        Assert.Equal(expected, resultQuery.Body.ToString());
     }
 
     [Fact]
     public void BuildQuery_ShouldBeGreaterAttributeWithIntValue_ReturnsGreaterValueQuery()
     {
         // Assert
-        var attribute = new ShouldBeGreaterAttribute("SomeValue", typeof(int));
+        var propName = "SomeValue";
         var param = Expression.Parameter(typeof(Todo));
         var value = 1;
 
         // Act
-        var resultQuery = _attributeQueryBuilder.BuildQuery<Todo>(attribute, param, value);
+        var resultQuery = _attributeQueryBuilder.BuildQuery<Todo>(typeof(ShouldBeGreaterAttribute),
+                                                                  propName,
+                                                                  param,
+                                                                  value);
 
         // Assert
-        Assert.Equal("Should Be Greater Expression", resultQuery.Name);
         Assert.Equal("(Param_0.SomeValue > 1)", resultQuery.Body.ToString());
     }
 
@@ -99,15 +59,17 @@ public class AttributeQueryBuilderTests
     public void BuildQuery_ShouldBeLessAttributeWithIntValue_ReturnsLessValueQuery()
     {
         // Assert
-        var attribute = new ShouldBeLessAttribute("SomeValue", typeof(int));
+        var propName = "SomeValue"; 
         var param = Expression.Parameter(typeof(Todo));
         var value = 1;
 
         // Act
-        var resultQuery = _attributeQueryBuilder.BuildQuery<Todo>(attribute, param, value);
+        var resultQuery = _attributeQueryBuilder.BuildQuery<Todo>(typeof(ShouldBeLessAttribute),
+                                                                  propName,
+                                                                  param,
+                                                                  value);
 
         // Assert
-        Assert.Equal("Should Be Less Expression", resultQuery.Name);
         Assert.Equal("(Param_0.SomeValue < 1)", resultQuery.Body.ToString());
     }
 
@@ -115,15 +77,33 @@ public class AttributeQueryBuilderTests
     public void BuildQuery_ShouldContainStrAttribute_ReturnsContainStrQuery()
     {
         // Assert
-        var attribute = new ShouldContainStrAttribute("Name", typeof(string));
+        var propName = "Name";
         var param = Expression.Parameter(typeof(Todo));
         var value = "name";
 
         // Act
-        var resultQuery = _attributeQueryBuilder.BuildQuery<Todo>(attribute, param, value);
+        var resultQuery = _attributeQueryBuilder.BuildQuery<Todo>(typeof(ShouldContainStrAttribute),
+                                                                  propName,
+                                                                  param,
+                                                                  value);
 
         // Assert
-        Assert.Equal("Contains Str Expression", resultQuery.Name);
         Assert.Equal("Param_0.Name.Contains(\"name\")", resultQuery.Body.ToString());
+    }
+
+    [Fact]
+    public void BuildQuery_InvalidAttributeType_ThrowsArgumentException()
+    {
+        // Arrange
+        var propName = "Name";
+        var param = Expression.Parameter(typeof(Todo));
+        var value = "test";
+
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() =>
+            _attributeQueryBuilder.BuildQuery<Todo>(typeof(AttributeQueryBuilderTests),
+                                                    propName,
+                                                    param,
+                                                    value));
     }
 }
