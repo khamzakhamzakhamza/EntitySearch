@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using EntitySearch.Core.Attributes;
+using EntitySearch.Core.Exceptions;
 using EntitySearch.Core.QueryBuilders;
 using EntitySearch.Example.Entities;
 using EntitySearch.Example.Enums;
@@ -103,6 +104,21 @@ public class AttributeQueryBuilderTests
         Assert.Throws<ArgumentException>(() =>
             _attributeQueryBuilder.BuildQuery<Todo>(typeof(AttributeQueryBuilderTests),
                                                     propName,
+                                                    param,
+                                                    value));
+    }
+
+    [Fact]
+    public void BuildQuery_InvalidPropName_ThrowsPropertyNameInvalidException()
+    {
+        // Arrange
+        var param = Expression.Parameter(typeof(Todo));
+        var value = "test";
+
+        // Act & Assert
+        Assert.Throws<PropertyNameInvalidException>(() =>
+            _attributeQueryBuilder.BuildQuery<Todo>(typeof(AttributeQueryBuilderTests),
+                                                    "",
                                                     param,
                                                     value));
     }

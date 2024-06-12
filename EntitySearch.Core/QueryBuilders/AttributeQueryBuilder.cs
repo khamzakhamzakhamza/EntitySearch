@@ -1,17 +1,29 @@
 using System;
 using System.Linq.Expressions;
+using System.Reflection;
 using EntitySearch.Core.Attributes;
+using EntitySearch.Core.Exceptions;
 
 namespace EntitySearch.Core.QueryBuilders {
-    
+
     internal class AttributeQueryBuilder: IAttributeQueryBuilder
     {
         public Expression<Func<TEntity, bool>> BuildQuery<TEntity>(Type attributeType,
-                                                                 string propName,
-                                                                 ParameterExpression param,
-                                                                 object filteringValue)
+                                                                   string propName,
+                                                                   ParameterExpression param,
+                                                                   object filteringValue)
             where TEntity : class, new()
         {
+            var property = typeof(TEntity).GetProperty(propName, 
+                                                       BindingFlags.Public
+                                                       | BindingFlags.Instance);
+
+            if (property is null) {
+                var msg = ExceptionMessages.PropertyNameInvalid(propName,
+                                                                typeof(TEntity).Name);
+                throw new PropertyNameInvalidException(msg);
+            }
+
             return attributeType switch
             {
                 Type t when t == typeof(ShouldContainStrAttribute) =>
@@ -55,8 +67,8 @@ namespace EntitySearch.Core.QueryBuilders {
                                                                                     object filteringValue)
             where TEntity : class, new()
         {
-            var propertyExpression = Expression.Property(param, typeof(TEntity), propName);
             var constantExpression = Expression.Constant(filteringValue);
+            var propertyExpression = Expression.Property(param, typeof(TEntity), propName);
             var binaryExpression = Expression.MakeBinary(expressionType, propertyExpression, constantExpression);
 
             return Expression.Lambda<Func<TEntity, bool>>(binaryExpression, param);
