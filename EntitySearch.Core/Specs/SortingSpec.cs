@@ -1,5 +1,5 @@
 namespace EntitySearch.Core.Specs {
-    public class SortingSpec
+    public struct SortingSpec
     {
         public string SortProperty { get; set; }
 

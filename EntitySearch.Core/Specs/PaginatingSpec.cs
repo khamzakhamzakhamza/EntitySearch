@@ -1,5 +1,5 @@
 namespace EntitySearch.Core.Specs {
-    public class PaginatingSpec
+    public struct PaginatingSpec
     {
         public uint PageNumber { get; set; }
 
