@@ -3,7 +3,8 @@ using System.Linq.Expressions;
 using EntitySearch.Core.Attributes;
 
 namespace EntitySearch.Core.QueryBuilders {
-    public class AttributeQueryBuilder: IAttributeQueryBuilder
+    
+    internal class AttributeQueryBuilder: IAttributeQueryBuilder
     {
         public Expression<Func<TEntity, bool>> BuildQuery<TEntity>(Type attributeType,
                                                                  string propName,
