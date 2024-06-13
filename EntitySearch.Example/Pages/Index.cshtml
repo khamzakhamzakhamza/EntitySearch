@@ -4,11 +4,12 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Entity Search Example</h1>
+<div class="text-center flex-box">
+  <h1 class="display-4">Entity Search Example</h1>
 
-    <h3 class="heading">Create Todo</h3>
-    <form class="box" method="post">
+  <div class="box">
+    <form asp-page-handler="create" method="post">
+      <h3 class="heading">Create Todo</h3>
       <label class="form-field">WeekDay:</label><br>
       <select required class="form-field" name="weekday">
         <option value="0">Monday</option>
@@ -27,33 +28,98 @@
       
       <input class="form-field" type="submit" value="Create Todo">
     </form>
+  </div>
 
-    <h3 class="heading">Filter Todos</h3>
-    <form class="box" asp-page-handler="filter" method="post">
-      <label class="form-field">WeekDay equals:</label><br>
-      <select class="form-field" name="weekdayequals">
-        <option value="0">Monday</option>
-        <option value="1">Tuesday</option>
-        <option value="2">Wednesday</option>
-      </select>
-      
-      <label class="form-field">Name contains:</label><br>
-      <input class="form-field" type="text" name="namecontains"><br>
-      
-      <label class="form-field">Done equals:</label><br>
-      <input class="form-field" type="checkbox" name="doneequals"><br><br>
+  <div class="box">
+    <form asp-page-handler="filter" method="post">
+      <h3 class="heading">Filter Todos</h3>
 
-      <label class="form-field">SomeValue less than:</label><br>
-      <input class="form-field" type="number" name="somevaluelessthan"><br><br>
-      
-      <label class="form-field">SomeValue greater than:</label><br>
-      <input class="form-field" type="number" name="somevaluegreaterthan"><br><br>
+      <div class="filter-form-field">
+        <div style="width: 150px">
+          <label class="form-field">Filter by this field:</label><br>
+          <input class="form-field" type="checkbox" name="weekdayequalson"><br><br>
+        </div>
+
+        <div style="width: 350px">
+          <label class="form-field">WeekDay equals:</label><br>
+          <select class="form-field" name="weekdayequals">
+            <option value="0">Monday</option>
+            <option value="1">Tuesday</option>
+            <option value="2">Wednesday</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="filter-form-field">
+        <div style="width: 150px">
+          <label class="form-field">Filter by this field:</label><br>
+          <input class="form-field" type="checkbox" name="namecontainson"><br><br>
+        </div>
+
+        <div style="width: 350px">
+          <label class="form-field">Name contains:</label><br>
+          <input class="form-field" type="text" name="namecontains"><br>
+        </div>
+      </div>
+
+      <div class="filter-form-field">
+        <div style="width: 150px">
+          <label class="form-field">Filter by this field:</label><br>
+          <input class="form-field" type="checkbox" name="doneequalson"><br><br>
+        </div>
+
+        <div style="width: 350px">
+          <label class="form-field">Done equals:</label><br>
+          <input class="form-field" type="checkbox" name="doneequals"><br><br>
+        </div>
+      </div>
+
+      <div class="filter-form-field">
+        <div style="width: 150px">
+          <label class="form-field">Filter by this field:</label><br>
+          <input class="form-field" type="checkbox" name="somevaluelessthanon"><br><br>
+        </div>
+
+        <div style="width: 350px">
+          <label class="form-field">SomeValue less than:</label><br>
+          <input class="form-field" type="number" name="somevaluelessthan"><br><br>
+        </div>
+      </div>
+
+      <div class="filter-form-field">
+        <div style="width: 150px">
+          <label class="form-field">Filter by this field:</label><br>
+          <input class="form-field" type="checkbox" name="somevaluegreaterthanon"><br><br>
+        </div>
+
+        <div style="width: 350px">
+          <label class="form-field">SomeValue greater than:</label><br>
+          <input class="form-field" type="number" name="somevaluegreaterthan"><br><br>
+        </div>
+      </div>
+
+      <div class="filter-form-field">
+        <div style="width: 150px">
+          <label class="form-field">Sort descending:</label><br>
+          <input class="form-field" type="checkbox" name="sortdescending"><br><br>
+        </div>
+
+        <div style="width: 350px">
+          <label class="form-field">Sort by:</label><br>
+          <select class="form-field" name="sortby">
+            <option value="Id">Id</option>
+            <option value="Name">Name</option>
+          </select>
+        </div>
+      </div>
       
       <input class="form-field" type="submit" value="Filter">
     </form>
+  </div>
 
+  <div>
     <h3 class="heading">Todos</h3>
-    <table class="box">
+    <table>
       <tr>
         <th>Id</th>
         <th>WeekDay</th>
@@ -73,5 +139,5 @@
           </tr>
       }
     </table>
-    
+  </div>
 </div>

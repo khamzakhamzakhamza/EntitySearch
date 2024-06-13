@@ -4,11 +4,29 @@
 }
 
 .box {
-  padding: 25px;
+  max-width: 500px;
   width: 100%;
 }
   
 .heading {
   margin-top: 20px; 
   font-size: 22px;
+}
+
+.flex-box {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.filter-form-field {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+td {
+  min-width: 150px;
 }

@@ -1,5 +1,4 @@
 using EntitySearch.Core;
-using EntitySearch.Core.QueryBuilders;
 using EntitySearch.Core.Specs;
 using EntitySearch.Example.Data;
 using EntitySearch.Example.Entities;
@@ -26,30 +25,47 @@ public class IndexModel : PageModel
 
     public async Task OnPostFilterAsync()
     {
+        // Collect data from the form 
+        var weekDayEqualsOn = Request.Form["weekdayequalson"].FirstOrDefault() == "on";
         var weekDayEquals = (WeekDays)int.Parse(Request.Form["weekdayequals"].First() ?? "0");
+
+        var nameContainsOn = Request.Form["namecontainson"].FirstOrDefault() == "on";
         var nameContains = Request.Form["namecontains"];
-        var doneEqual = Request.Form["doneequals"].FirstOrDefault() == "on" ? true : false;
+
+        var doneEqualOn = Request.Form["doneequalson"].FirstOrDefault() == "on";
+        var doneEqual = Request.Form["doneequals"].FirstOrDefault() == "on";
+
+        var someValueLessThanOn = Request.Form["somevaluelessthanon"].FirstOrDefault() == "on";
         int.TryParse(Request.Form["somevaluelessthan"].FirstOrDefault(), out var someValueLessThan);
+
+        var someValueGreaterThanOn = Request.Form["somevaluegreaterthanon"].FirstOrDefault() == "on";
         int.TryParse(Request.Form["somevaluegreaterthan"].FirstOrDefault(), out var someValueGreaterThan);
 
-        var filteringSpec = new TodoFilteringSpec {
-            WeekDayEqual = weekDayEquals,
-            NameContains  = nameContains,
-            DoneEqual = doneEqual,
-            LessThanSomeValue = someValueLessThan,
-            GreaterThanSomeValue = someValueGreaterThan,
-        };
+        var sortDescending = Request.Form["sortdescending"].FirstOrDefault() == "on";
+        var sortBy = Request.Form["sortby"].First();
 
-        var sortitngSpec = new SortingSpec("Name");
+        // Create specs
+        var filteringSpec = new TodoFilteringSpec {
+            WeekDayEqual = weekDayEqualsOn ? weekDayEquals : null,
+            DoneEqual = doneEqualOn ? doneEqual : null,
+            LessThanSomeValue = someValueLessThanOn ? someValueLessThan : null,
+            GreaterThanSomeValue = someValueGreaterThanOn ? someValueGreaterThan : null,
+        };
+        if (nameContainsOn)
+            filteringSpec.NameContains = nameContains;
+        
+        var sortitngSpec = new SortingSpec(sortBy, sortDescending);
 
         var paginatingSpec = new PaginatingSpec(0, 10);
 
+        // Run search
         var entities = await _search.SearchAsync<TodoFilteringSpec, Todo>(filteringSpec, sortitngSpec, paginatingSpec);
 
+        // Display results
         Todos = entities.Data.ToArray();
     }
 
-    public void OnPost()
+    public void OnPostCreate()
     {
         var todo = new Todo {
             Id = Guid.NewGuid().ToString(),
