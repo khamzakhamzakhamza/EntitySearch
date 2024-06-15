@@ -1,4 +1,3 @@
-using EntitySearch.Core;
 using EntitySearch.Core.Specs;
 using EntitySearch.Example.Data;
 using EntitySearch.Example.Entities;
@@ -13,9 +12,9 @@ public class IndexModel : PageModel
     public Todo[] Todos {get; set;} = {};
 
     private readonly ExampleDbContext _context;
-    private readonly Search _search;
+    private readonly TodoSearch _search;
 
-    public IndexModel(ExampleDbContext context, Search search)
+    public IndexModel(ExampleDbContext context, TodoSearch search)
     {
         _context = context;
         _search = search;

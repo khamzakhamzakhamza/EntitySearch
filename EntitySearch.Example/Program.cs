@@ -1,5 +1,6 @@
 using EntitySearch.Core;
 using EntitySearch.EfCore;
+using EntitySearch.Example;
 using EntitySearch.Example.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,8 @@ builder.Services.AddDbContextFactory<ExampleDbContext>(
         options => options.UseInMemoryDatabase("Example"));
 
 builder.Services.AddEntitySearch().WithEfCore<ExampleDbContext>();
+
+builder.Services.AddScoped<TodoSearch>();
 
 var app = builder.Build();
 
