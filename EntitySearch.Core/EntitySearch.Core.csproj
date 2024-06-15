@@ -9,14 +9,18 @@
     <Title>EntitySearch</Title>
     <PackageDescription>
     EntitySearch is an out-of-the-box solution for filtering, sorting, and paginating data.
-    Quickstart - https://github.com/khamzakhamzakhamza/EntitySearch
+    Quickstart - https://github.com/khamzakhamzakhamza/EntitySearch?tab=readme-ov-file#quickstart
     </PackageDescription>
     <PackageTags>Filter;Sort;Paginate;Search;</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="[1.0.0,)" />
+    <None Include="../LICENSE" Pack="true" PackagePath=""/>
+    <None Include="../README.md" Pack="true" PackagePath=""/>
   </ItemGroup>
 
 </Project>
