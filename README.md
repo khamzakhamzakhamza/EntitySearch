@@ -3,6 +3,11 @@
 
 EntitySearch is an out-of-the-box solution for filtering, sorting, and paginating data. It works with Entity Framework but can be extended to support other ORMs.
 
+## Instalation
+
+Download the nuget package: 
+```dotnet add package khamzakhamzakhamza.EntitySearch.EfCore```
+
 ## Quickstart
 
 To use EntitySearch in an ASP.NET Core application with Entity Framework, all you need to do is add EntitySearch services to the ASP.NET Core DI container:
