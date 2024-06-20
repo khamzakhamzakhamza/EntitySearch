@@ -6,7 +6,9 @@ EntitySearch is an out-of-the-box solution for filtering, sorting, and paginatin
 ## Instalation
 
 Download the nuget package: 
-```dotnet add package khamzakhamzakhamza.EntitySearch.EfCore```
+```
+dotnet add package khamzakhamzakhamza.EntitySearch.EfCore
+```
 
 ## Quickstart
 
