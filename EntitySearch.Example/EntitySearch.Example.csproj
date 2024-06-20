@@ -1,12 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <ItemGroup>
-    <ProjectReference Include="..\entitysearch.core\EntitySearch.Core.csproj" />
-    <ProjectReference Include="..\entitysearch.efcore\EntitySearch.EfCore.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.6" />
+    <ProjectReference Include="..\entitysearch.efcore\EntitySearch.EfCore.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
