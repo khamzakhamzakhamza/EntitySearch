@@ -1,35 +1,38 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using EntitySearch.Core.Adapters;
 using Microsoft.EntityFrameworkCore;
 
-namespace EntitySearch.EfCore;
-
-public class EfCoreDataAdapter<AppContext>: IDataAdapter
-    where AppContext: DbContext 
-{
-    private readonly AppContext _context;
-
-    public EfCoreDataAdapter(AppContext context)
+namespace EntitySearch.EfCore {
+    public class EfCoreDataAdapter<AppContext>: IDataAdapter
+        where AppContext: DbContext 
     {
-        _context = context;
-    }
+        private readonly AppContext _context;
 
-    public async Task<uint> GetCountAsync<Entity>()
-        where Entity: class, new()
-    {
-        var count = await _context.Set<Entity>().CountAsync();
+        public EfCoreDataAdapter(AppContext context)
+        {
+            _context = context;
+        }
 
-        return (uint)count;
-    }
+        public async Task<uint> GetCountAsync<Entity>()
+            where Entity: class, new()
+        {
+            var count = await _context.Set<Entity>().CountAsync();
 
-    public IQueryable<Entity> GetBaseQuery<Entity>()
-        where Entity: class, new() => 
-        _context.Set<Entity>();
+            return (uint)count;
+        }
 
-    public async Task<ICollection<Entity>> ExecuteQuery<Entity>(IQueryable<Entity> query)
-        where Entity: class, new()
-    {
-        var entities = await query.ToListAsync();
-        
-        return entities;
+        public IQueryable<Entity> GetBaseQuery<Entity>()
+            where Entity: class, new() => 
+            _context.Set<Entity>();
+
+        public async Task<ICollection<Entity>> ExecuteQuery<Entity>(IQueryable<Entity> query)
+            where Entity: class, new()
+        {
+            var entities = await query.ToListAsync();
+            
+            return entities;
+        }
     }
 }
