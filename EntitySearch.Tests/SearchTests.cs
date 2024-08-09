@@ -26,19 +26,20 @@ public class SearchTests
     }
 
     [Theory]
-    [InlineData(3, 11, 5)]
-    [InlineData(2, 10, 5)]
-    [InlineData(0, 0, 5)]
-    [InlineData(1, 4, 5)]
+    [InlineData(3, 11, 5, "Done")]
+    [InlineData(2, 10, 5, "Name")]
+    [InlineData(0, 0, 5, "CreatedAt")]
+    [InlineData(1, 4, 5, "Id")]
     public async Task SearchAsync_ValidQuery_CorrectPageCount(uint expectedPageCount,
                                                               uint entitiesCount,
-                                                              uint pageSize) 
+                                                              uint pageSize,
+                                                              string sortingPropName) 
     {
         // Assert
         var query = new Todo[] {}.AsQueryable();
         var filteringSpec = new TodoFilteringSpec();
         var paginatingSpec = new PaginatingSpec(0, pageSize);
-        var sortingSpec = new SortingSpec("Done");
+        var sortingSpec = new SortingSpec(sortingPropName);
 
         _dataAdapterMock.Setup(x => x.GetCountAsync<Todo>())
             .ReturnsAsync(entitiesCount);

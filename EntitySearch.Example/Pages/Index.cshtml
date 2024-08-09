@@ -109,6 +109,7 @@
           <select class="form-field" name="sortby">
             <option value="Id">Id</option>
             <option value="Name">Name</option>
+            <option value="CreatedAt">Created at</option>
           </select>
         </div>
       </div>
@@ -126,6 +127,7 @@
         <th>Name</th>
         <th>Done</th>
         <th>SomeValue</th>
+        <th>CreatedAt</th>
       </tr>
       @for (var i = 0; i < Model.Todos.Length; i++)
       {
@@ -136,6 +138,7 @@
             <td>@todo.Name</td>
             <td>@todo.Done</td>
             <td>@todo.SomeValue</td>
+            <td>@todo.CreatedAt</td>
           </tr>
       }
     </table>

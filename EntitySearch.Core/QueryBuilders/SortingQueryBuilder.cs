@@ -22,7 +22,9 @@ namespace EntitySearch.Core.QueryBuilders {
             var parameterExpression = Expression.Parameter(typeof(TEntity));
             var propertyAccessExpression = Expression.MakeMemberAccess(parameterExpression, property);
 
-            return Expression.Lambda<Func<TEntity, object>>(propertyAccessExpression, parameterExpression);
+            var convertedPropertyAccessExpression = Expression.Convert(propertyAccessExpression, typeof(object));
+
+            return Expression.Lambda<Func<TEntity, object>>(convertedPropertyAccessExpression, parameterExpression);
         }
     }
 }

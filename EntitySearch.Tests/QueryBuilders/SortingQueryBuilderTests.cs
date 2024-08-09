@@ -14,7 +14,7 @@ public class SortingQueryBuilderTests
     }
 
     [Fact]
-    public void BuildQuery_PropvidedValidSortProp_ReturnsValidSortQuery()
+    public void BuildQuery_PropvidedValidSortObjectProp_ReturnsValidSortQuery()
     {
         // Assert
         var propName = "Name";
@@ -23,7 +23,20 @@ public class SortingQueryBuilderTests
         var resultQuery = _sortingQueryBuilder.BuildQuery<Todo>(propName);
 
         // Assert
-        Assert.Equal("Param_0.Name", resultQuery.Body.ToString());
+        Assert.Contains("Name", resultQuery.Body.ToString());
+    }
+
+    [Fact]
+    public void BuildQuery_PropvidedValidSortStructProp_ReturnsValidSortQuery()
+    {
+        // Assert
+        var propName = "CreatedAt";
+
+        // Act
+        var resultQuery = _sortingQueryBuilder.BuildQuery<Todo>(propName);
+
+        // Assert
+        Assert.Contains("CreatedAt", resultQuery.Body.ToString());
     }
 
     [Fact]

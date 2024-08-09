@@ -50,6 +50,7 @@ public class IndexModel : PageModel
             LessThanSomeValue = someValueLessThanOn ? someValueLessThan : null,
             GreaterThanSomeValue = someValueGreaterThanOn ? someValueGreaterThan : null,
         };
+
         if (nameContainsOn)
             filteringSpec.NameContains = nameContains;
         
@@ -72,6 +73,7 @@ public class IndexModel : PageModel
             Name = Request.Form["name"],
             Done = Request.Form["done"].FirstOrDefault() == "on" ? true : false,
             SomeValue = int.Parse(Request.Form["somevalue"].First() ?? "0"),
+            CreatedAt = DateTime.UtcNow
         };
 
         _context.Todos.Add(todo);
