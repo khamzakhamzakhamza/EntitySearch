@@ -174,11 +174,15 @@ public class TodoSearch: Search
                       ISortingQueryBuilder sortingQueryBuilder)
         : base(dataAdapter, filteringQueryBuilder, sortingQueryBuilder) {}
 
-    public override IQueryable<Todo> CustomizeQuery<Todo>(IQueryable<Todo> query)
+    public override IQueryable<TEntity> CustomizeQuery<TEntity>(IQueryable<TEntity> query)
     {
-        // Perform any modification to the query here.
-        return query.AsNoTracking(); 
+        var todoQuery = query as IQueryable<Todo>;
+        
+        return CustomizeTodoQuery(todoQuery) as IQueryable<TEntity>;
     }
+
+    // Perform any modification to the query here.
+    private IQueryable<Todo> CustomizeTodoQuery(IQueryable<Todo> query) => query.AsNoTracking();
 }
  ```
 
